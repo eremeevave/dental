@@ -1,0 +1,48 @@
+main{
+/*	width:80%;*/
+	background:#276b77;
+	color:white;
+	font-family: 'Comfortaa';
+	margin: 10%;
+	border-radius: 10px;
+}
+
+main h2{
+	text-align: center;
+	padding:5%;
+}
+
+main h5{
+	text-align: center;
+	padding: 1%;
+}
+
+main a{
+	color:antiquewhite;
+}
+main a:hover{
+	color:white;
+	text-decoration: none;
+}
+
+.registration{
+	text-align: center;
+	font-size: 18px;
+}
+
+.registration p{
+	font-family: 'Comfortaa';
+	font-size: 20px;
+}
+
+.registration input{
+	width: 60%;
+	border-radius: 10px;
+}
+
+.btn{
+	margin: 5%;
+	background: #276b77;
+	color:white;
+	border:1px white solid;
+}

@@ -1,0 +1,63 @@
+.wrapper{
+	width:80%;
+	margin: 10px auto;
+	font-family: 'Comfortaa';
+	color:#276b77;
+}
+
+
+.logo{
+	width:30px;
+}
+.to-main img{
+	width:30px;
+}
+
+.log-out a{
+	text-align: right;
+	display: inline-block;
+	text-decoration: none;
+}
+
+.to-main{
+	margin-top:1%;
+	margin-bottom:1%;
+}
+
+.wrapper h3{
+	text-align: center;
+}
+.wrapper p{
+	text-align: center;
+}
+
+.btn{
+	text-align: center;
+	width:100%;
+	text-align: center;
+}
+
+.btn a{
+	text-align: center;
+	display: block;
+	width:50%;
+	margin: 10px auto;
+	background: white;
+	color:#276b77;
+	border: 2px solid #276b77;
+	border-radius: 5px;
+	font-weight: bold;
+	text-decoration: none;
+/*	padding:5px;*/
+}
+
+.services{
+	text-align: left;
+	color:white;
+	background: #276b77;
+	opacity:0.8;
+	border-radius: 10px;
+	padding:5%;
+	font-size: 18px;
+	
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Registration for doctors</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<link rel="stylesheet" href="/css/doctor-registration-style.css">
+</head>
+<body>
+	<div class="reg">
+		<form method="POST" action="/doctor-register">
+			<p>Ім'я</p>
+			<input type="text" name="fname" required placeholder="Ім'я">
+			<p>Прізвище</p>
+			<input type="text" name="lname" required placeholder="Прізвище">
+			<p>Пошта</p>
+			<input type="email" name="email" required placeholder="e-mail">
+			<p>Час початку роботи</p>
+			<input type="time" name="starttime" required>
+			
+			<!-- тут бы сделать проверочку, что доктор будет работать в рамкас с 9 до 20.
+			 И как минимум 3 часа-->
+			<p>Час закінчення робочого дня</p>
+			<input type="time" name="endtime" required>
+			
+			<p>Виберіть послуги, які ви надаєте:</p>
+					<input type="checkbox" name="services" value="1">Відбілювання зубів <br>
+					<input type="checkbox" name="services" value="2">Професійна чистка зубів<br>
+					<input type="checkbox" name="services" value="3">Встновлення/корегування пластинок<br>
+					<input type="checkbox" name="services" value="4">Встановалення/корегування брекетів<br>
+					<input type="checkbox" name="services" value="5">Встановлення/корегування капп<br>
+					<input type="checkbox" name="services" value="6">Пломбування зубів<br>
+					<input type="checkbox" name="services" value="7">Реставрація зубів<br>
+					<input type="checkbox" name="services" value="8">Видалення зуба<br>
+					<input type="checkbox" name="services" value="9">Імплантація<br>
+					<input type="checkbox" name="services" value="10">Встановлення вінірів<br>
+					<input type="checkbox" name="services" value="11">Керамічні коронки<br>
+					<input type="checkbox" name="services" value="12">Протезування на імплантах<br>
+					<input type="checkbox" name="services" value="13">Встановлення протезів<br>
+			
+			<p>Пароль</p>
+			<input type="password" name="password" placeholder="password" required>
+			
+			<p>Введіть ваш ідентифікатор доступу до системи:</p>
+			<input type="password" name="token">
+			<br><span id="message"></span><br>
+			<div class="btn">
+				<input type="submit" value="OK!">
+			</div>
+			
+		</form>
+	</div>
+	
+</body>
+</html>

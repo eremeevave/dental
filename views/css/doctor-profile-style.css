@@ -1,0 +1,15 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.logo{
+	width:30px;
+}
+
+.wrapper{
+	width: 70%;
+	margin: 5% auto;
+	color:#276b77;
+	font-family:'Comfortaa';
+}

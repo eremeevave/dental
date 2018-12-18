@@ -1,0 +1,37 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+main{
+	width:60%;
+	margin: 10% auto;;
+	border-radius: 10px;
+	text-align: center;
+	background: #21b0cc;
+	color:white;
+	font-family: 'Comfortaa';
+	font-weight: bold;
+	padding: 20px;
+}
+form {
+	text-align: center;
+	
+}
+
+form input{
+	border-radius: 10px;
+}
+
+.btn{
+	margin: 20px;
+	display: block;
+	padding: 5px;
+}
+.btn input{
+	width:40%;
+	background: #21b0cc;
+	border: 2px solid white;
+	color:white;
+	padding: 5px;
+}

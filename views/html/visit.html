@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Visit</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<link rel="stylesheet" href="/css/visit-style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	<script>
+	let doctors, selectedDoctor
+	
+	function serviceSelected(){
+		const service = document.getElementById("service").value
+		console.log(service)
+		fetch(`/getDoctorsByServices?service_id='${service}'`).then(response => response.text()).then(data => {
+			doctors = JSON.parse(data)
+			let select = document.getElementById('doctors')
+			select.innerHTML = ""
+			if(doctors.length >= 1){
+				document.getElementById('price').innerText = `Ціна: ${doctors[0].s_price} грывень`
+				for(let i = -1; i<doctors.length; i++){
+					let opt = document.createElement('option')
+					if(i===-1) {
+						opt.disabled
+    					opt.innerHTML = "--"
+					} else {
+						opt.value = doctors[i].d_lastname
+    					opt.innerHTML = doctors[i].d_lastname
+					}
+    				select.appendChild(opt)	
+				}
+			} else {
+				document.getElementById('price').innerText = `Ниту докторов которые предоставляют такие услуги`
+			}
+		})
+	}
+
+	function doctorSelected(){
+		const value = document.getElementById("doctors").value
+		doctors.forEach(element => {
+			if(element.d_lastname === value) selectedDoctor = element
+		})
+	}
+
+	function recordVisit(){
+		const p_id = $.cookie("client_id")
+		const v_price = selectedDoctor.s_price
+		const d_id = selectedDoctor.d_id
+		const s_id = document.getElementById('service').value
+		const visitdate = document.getElementById('visit-date').value
+		const visittime = document.getElementById('visit-time').value
+		let data = {p_id: p_id, v_price: v_price, d_id: d_id, s_id: s_id, visitdate: visitdate, visittime: visittime}
+		data = Object.keys(data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])).join('&')
+		fetch('/recordVisit', {method:"POST",mode: "cors",headers: {
+                'Content-Type':'application/x-www-form-urlencoded', 'Access-Control-Allow-Origin':'*'
+        }, body: data}).then(response => {
+                return response.text()
+            }).then(data => {
+				const result = JSON.parse(data)
+                if(result.code === 1){
+					document.getElementById('message').style.color = 'red';
+                	document.getElementById('message').innerHTML = result.message;
+				}
+				if(result.code === 0){
+					document.getElementById('message').style.color = 'green';
+					document.getElementById('message').innerHTML = result.message;
+					setTimeout(function(){
+						window.location.replace('/user-profile')
+					}, 1000)
+				}
+            })
+	}
+
+	</script>
+</head>
+<body>
+	<main>
+		<div class="wrapper">
+			<p>Резервування візиту до лікаря</p>
+			<form>
+				<p>Виберіть послугу</p>
+				<select id="service" name="service" onchange="serviceSelected()" required>
+					<option disabled selected>--</option>
+					<option value="1">Відбілювання зубів</option>
+					<option value="2">Професійна чистка зубів</option>
+					<option value="3">Встновлення/корегування пластинок</option>
+					<option value="4">Встановалення/корегування брекетів</option>
+					<option value="5">Встановлення/корегування капп</option>
+					<option value="6">Пломбування зубів</option>
+					<option value="7">Реставрація зубів</option>
+					<option value="8">Видалення зуба</option>
+					<option value="9">Імплантація</option>
+					<option value="10">Встановлення вінірів</option>
+					<option value="11">Керамічні коронки</option>
+					<option value="12">Протезування на імплантах</option>
+					<option value="13">Встановлення протезів</option>
+				</select>
+				<!--хз как должно быть правитьно. хочу тут выводить сколько будет стоить услуга-->
+				<p id="price" name="price">Ціна:</p>
+				
+				<p>Виберіть лікаря</p>
+				<select id="doctors" name="doctor" onchange="doctorSelected()">
+				</select>
+				<p>Виберіть дату візита</p>
+				 <!--тут не забыть проверить услове что выбираем бату на будущее, а не на 1900 год)))-->
+				<input type="date" id="visit-date" name="visitdate" min="2018-12-14" max="2020-12-14" required>
+				<p>Виберіть час</p>
+				<!--как-то это ограничение во времени так себе работает) 
+				может можно как-то через бек проверять-->
+				<input type="time" id="visit-time" name="visittime" required>
+			<div class="btn">
+				<input type="button" onclick="recordVisit()">
+			</div>
+
+			<span id="message"></span>
+				
+			</form>
+		</div>
+	</main>
+	
+</body>
+</html>

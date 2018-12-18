@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Log into form</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<link rel="stylesheet" href="/css/log-into-style.css">
+</head>
+<body>
+	<main>
+		<h2>Вхід до аккаунта</h2>
+		<div class="registration">
+			<form method="POST" action="/user-login">
+				<p>Логін:</p>
+					<input type="email" name="email" placeholder="e-mail">
+				<p>Пароль:</p>
+					<input type="password" name="password" placeholder="password" pattern="^[a-zA-Z0-9]+$">
+					<input type="submit" value="Submit" class="btn"> 
+			</form>
+		</div>
+		<h5>Ще не зареєстровані? <a href="/user-register">Виправити це</a></h5>
+	</main>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	  <script src="js/bootstrap.min.js"></script>
+	  <script src="js/script.js"></script>
+</body>
+</html>

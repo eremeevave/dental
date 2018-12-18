@@ -1,0 +1,41 @@
+h3{
+	text-align: center;
+	margin: 5%;
+	font-family: 'Comfortaa';
+	color:#276b77;
+}
+.reg{
+	
+	width:80%;
+	margin: 0 auto;
+	text-align: center;
+	font-family: 'Comfortaa';
+	color:white;
+	background: #276b77;
+	border-radius: 10px;
+	margin-right:10%;
+	margin-left:10%;
+	padding-bottom:5%;
+}
+
+.reg p{
+	
+	padding-top:20px;
+}
+
+input{
+	border-radius: 10px;
+	width: 60%;
+}
+
+textarea{
+	height: 100px;
+	width:60%;
+}
+
+.btn{
+	margin-top: 5%;
+	background: #276b77;
+	color:white;
+	border:1px white solid;
+}

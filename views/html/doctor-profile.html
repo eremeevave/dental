@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Doctor's account</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+	<link rel="stylesheet" href="/css/doctor-profile-style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	<script>
+		let clients
+
+		function addTable() {
+  			var myTableDiv = document.getElementById("myDynamicTable");
+
+  			var table = document.createElement('TABLE');
+  			table.border = '1';
+
+  			var tableBody = document.createElement('TBODY');
+  			table.appendChild(tableBody);
+			
+			const hight = clients.message.length
+			const wigth = Object.keys(clients.message[0]).length
+  			for (var i = 0; i < hight; i++) {
+    			var tr = document.createElement('TR');
+    			tableBody.appendChild(tr);
+
+    			for (var j = 0; j < 1; j++) {
+      				var td = document.createElement('TD');
+      				//td.width = '75';
+					  td.appendChild(document.createTextNode(`Число: ${clients.message[i].v_date}, \
+					  Время: ${clients.message[i].v_time}, Имя пациента: ${clients.message[i].p_firstname},\
+					  Фамилия пациента: ${clients.message[i].p_lastname}, Имя пациента: ${clients.message[i].s_name},\
+					  Цена: ${clients.message[i].v_price}`));
+      				tr.appendChild(td);
+    			}
+  			}
+  			myTableDiv.appendChild(table);
+		}
+
+	document.addEventListener("DOMContentLoaded", function(){
+		const doctor_id = $.cookie("doctor_id")
+		fetch(`/getVisits?doctor_id=${doctor_id}`).then(response => response.text()).then(data => {
+			clients = JSON.parse(data)
+			if(clients.code === 0) addTable()
+			else if(clients.code === 1) document.getElementById("addinfo").innerText = data.message
+			else document.getElementById("addinfo").innerText = "Поки нікого:( "
+		})
+	})
+	</script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+	  </button>
+  	  <a class="navbar-brand" href="#"><img class="logo" src="images/logo.png"></a>
+
+	   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				 <li class="nav-item">
+					<a class="nav-link" href="/logout">Вихід із системи</a>
+				 </li>
+			 </ul> 
+		</div>
+	</nav>
+	
+	<div class="wrapper">
+		<h3>Найближчі записи:</h3>
+		<div id="myDynamicTable"></div>
+		<p id="addinfo"></p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.reg{
+	width: 70%;
+	margin: 5% auto;
+	color:#276b77;
+	font-family:'Comfortaa';
+	border: 1px dashed #276b77;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+form input{
+/*	padding: 20px;*/
+	border-radius: 10px;
+	margin: 0;
+	
+}
+
+form p{
+	margin-top:25px;
+	padding:0;
+}
+
+.btn{
+	display: block;
+	text-align: left;
+	padding: 0;
+	margin-top: 15px;
+/*	width: 30%;*/
+}
+
+.btn input{
+	margin-top: 10px;
+	width: 30%;
+	border: 1px solid #276b77;
+	color: #276b77;
+	font-weight: bold;
+	
+}
