@@ -63,7 +63,7 @@ module.exports = (app) => {
                             [fname, lname, email, date, additional, hashpassword], (err, results, fields) =>{
                            if(err) {
                                console.log(err)
-                               res.redirect('/user-register')// если ошибка будем обработаем ее позже
+                               res.redirect('/user-register')
                            }
                            if(results) res.redirect('/user-login')
                        })
@@ -85,7 +85,7 @@ module.exports = (app) => {
         const end_time = req.body.endtime
         const services = req.body.services
         const password = req.body.password
-        const hashpassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null) // хешируем пароль, что бы злоумышленик никак не смог его узнать
+        const hashpassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null) 
         const token = req.body.token
         const startT = Number(start_time.replace(":", "").substring(0, 4))
         const endT = Number(end_time.replace(":", "").substring(0, 4))
@@ -118,14 +118,14 @@ module.exports = (app) => {
         db.query(`SELECT * FROM Tokens WHERE token = ?`, [token], (err, results, fields) => {
             if(err) return res.send({code: 1, message: err.message})
             if(results.length !== 0 && results[0].d_id == null){
-                // Ищем в базе доктора с таким email
+               
                 db.query(`SELECT * FROM Doctors WHERE d_email = ?`, [email], (err, results, fields) => {
-                    if (err) return res.send({code: 1, message: err.message})// если ошибка то будем обрабатывать ее позже
-                    if(results.length === 0){// если докторов с таким email нет(значит email уникален, нужно проверить таблицу клиентов)
+                    if (err) return res.send({code: 1, message: err.message})
+                    if(results.length === 0){
 
                         db.query(`SELECT * FROM Patient WHERE p_email = ?`, [email], (err, results, fields) => {
-                            if (err) return res.send({code: 1, message: err.message})// если ошибка то будем обрабатывать ее позже
-                            if(results.length === 0){// если пользователей с таким email нет(значит email уникален, можно регать), то регаем доктора(заносим юзера в бд)
+                            if (err) return res.send({code: 1, message: err.message})
+                            if(results.length === 0){
 							 
                                 db.query(`Call Doctor_insert (?, ?, ?, ?, ?, ?)`, 
                                     [fname, lname, start_time, end_time, email, hashpassword], (err, results, fields) =>{
@@ -138,7 +138,7 @@ module.exports = (app) => {
                                         db.query(`UPDATE Tokens SET d_id = ? WHERE token = ?`, 
                                             [doctor_id, token], (err, results, fields) => {
                                             if(err) return res.send({code: 1, message: err.message})
-                                            if(results) res.redirect('/user-login')// если все ок, кидаем пользователя на страницу авторизации
+                                            if(results) res.redirect('/user-login')
                                         })
 
                                         for(let i = 0; i < services.length; i++){
@@ -153,42 +153,39 @@ module.exports = (app) => {
                             }
                         })
                     } else {
-                        res.send({code: 1, message: "User with the same email already exist"})// если пользователь с таким email уже существует, то кидаем пользователя на форму логина снова
+                        res.send({code: 1, message: "User with the same email already exist"})// 
                     }
                 })
             } else {
-                res.send({code: 1, message: "Token is not exist or not valid"})// если пользователь неверно введет токен
+                res.send({code: 1, message: "Token is not exist or not valid"})
             }
         })
     })
 
-    // обработчик авторизации пользователя
+
     app.post('/user-login', (req, res, next) => {
         const email = req.body.email
         const password = req.body.password
 
-        // ищем в бд пользователя с таким email
         db.query(`SELECT p_id, p_password FROM Patient WHERE p_email = ?`, [email], (err, results, fields) => {
-            if(err) res.redirect('/user-login')//если ошибка то будем обрабатывать ее позже
-            const client = results[0]//присваиваем переменной user значение пользователя из бд( а именно id и password)
-            //если пользователь есть и хеши паролей совпадают
+            if(err) res.redirect('/user-login')
+            const client = results[0]
             if(results.length === 1 && bcrypt.compareSync(password, client.p_password)){
-                req.session.user_id = client.p_id// то пишем в сессию user_id для проверки авторизован пользователь или нет
-                res.cookie('client_id', client.p_id)// пишем user_id в куки, для удобства дальнейшей работы
+                req.session.user_id = client.p_id
+                res.cookie('client_id', client.p_id)
                 res.clearCookie("doctor_id")
-                res.redirect('/user-profile')// кидаем пользователя на страничку профиля
+                res.redirect('/user-profile')
             } else {
                 db.query(`SELECT d_id, d_password FROM Doctors WHERE d_email = ?`, [email], (err, results, fields) => {
                     if(err) res.redirect('/user-login')
                     const doctor = results[0]
                     if(results.length !== 0 && bcrypt.compareSync(password, doctor.d_password)){
-                        req.session.user_id = doctor.d_id// то пишем в сессию user_id для проверки авторизован пользователь или нет
-                        res.cookie('doctor_id', doctor.d_id)// пишем user_id в куки, для удобства дальнейшей работы
+                        req.session.user_id = doctor.d_id
+                        res.cookie('doctor_id', doctor.d_id)
                         res.clearCookie("client_id")
-                        res.redirect('/doctor-profile')// кидаем пользователя на страничку профиля
+                        res.redirect('/doctor-profile')
                     } else {
-                        res.redirect('/user-login')// если пароли не совпали или такого пользователя не существует то кидаем пользователя 
-                        // снова на страницу авторизацию
+                        res.redirect('/user-login')
                     }
                 })
             }
